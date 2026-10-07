@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to nestjs-idempotency.
+Thanks for contributing to nestjs-idempotency-key.
 
 ## Development
 
