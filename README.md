@@ -1,9 +1,9 @@
-# nestjs-idempotency
+# nestjs-idempotency-key
 
 Stripe-style `Idempotency-Key` support for NestJS. Retried requests (timeouts, flaky mobile networks, queue workers) run your handler **once** and get the original response back.
 
 ```bash
-npm install nestjs-idempotency
+npm install nestjs-idempotency-key
 ```
 
 ## Quick start
@@ -11,7 +11,7 @@ npm install nestjs-idempotency
 ```ts
 // app.module.ts
 import Redis from 'ioredis';
-import { IdempotencyModule } from 'nestjs-idempotency';
+import { IdempotencyModule } from 'nestjs-idempotency-key';
 
 @Module({
   imports: [
@@ -23,7 +23,7 @@ export class AppModule {}
 
 ```ts
 // payments.controller.ts
-import { Idempotent } from 'nestjs-idempotency';
+import { Idempotent } from 'nestjs-idempotency-key';
 
 @Controller('payments')
 export class PaymentsController {
@@ -44,14 +44,14 @@ curl -X POST localhost:3000/payments \
 
 ## Behaviour
 
-| Situation | Result |
-|---|---|
-| First request with a key | Handler runs, response is stored |
-| Same key + same payload, after completion | Stored response replayed, `Idempotent-Replayed: true` header |
-| Same key while the first request is running | `409 Conflict` + `Retry-After: 1` |
-| Same key, different payload | `422 Unprocessable Entity` |
-| Handler throws | Nothing cached, key released, client can retry |
-| Header missing | `400` (or pass through with `required: false`) |
+| Situation                                   | Result                                                       |
+| ------------------------------------------- | ------------------------------------------------------------ |
+| First request with a key                    | Handler runs, response is stored                             |
+| Same key + same payload, after completion   | Stored response replayed, `Idempotent-Replayed: true` header |
+| Same key while the first request is running | `409 Conflict` + `Retry-After: 1`                            |
+| Same key, different payload                 | `422 Unprocessable Entity`                                   |
+| Handler throws                              | Nothing cached, key released, client can retry               |
+| Header missing                              | `400` (or pass through with `required: false`)               |
 
 Keys are scoped by HTTP method and path, so one key can't collide across endpoints.
 
@@ -59,16 +59,16 @@ Keys are scoped by HTTP method and path, so one key can't collide across endpoin
 
 Set globally in `forRoot()` / `forRootAsync()` and override per route with `@Idempotent({ ... })`.
 
-| Option | Default | Description |
-|---|---|---|
-| `ttl` | 24h | How long completed responses are kept (ms) |
-| `lockTtl` | 30s | Max time an in-flight request holds the key (ms) |
-| `headerName` | `idempotency-key` | Header carrying the key |
-| `required` | `true` | Reject requests without the header |
-| `maxKeyLength` | 255 | Longest accepted key |
-| `scope` | none | `(req) => string`, e.g. user id, so users can't see each other's keys |
-| `keyPrefix` | `idempotency` | Prefix for storage keys (module-level) |
-| `store` / `redis` | in-memory | Custom `IdempotencyStore`, or an ioredis client |
+| Option            | Default           | Description                                                           |
+| ----------------- | ----------------- | --------------------------------------------------------------------- |
+| `ttl`             | 24h               | How long completed responses are kept (ms)                            |
+| `lockTtl`         | 30s               | Max time an in-flight request holds the key (ms)                      |
+| `headerName`      | `idempotency-key` | Header carrying the key                                               |
+| `required`        | `true`            | Reject requests without the header                                    |
+| `maxKeyLength`    | 255               | Longest accepted key                                                  |
+| `scope`           | none              | `(req) => string`, e.g. user id, so users can't see each other's keys |
+| `keyPrefix`       | `idempotency`     | Prefix for storage keys (module-level)                                |
+| `store` / `redis` | in-memory         | Custom `IdempotencyStore`, or an ioredis client                       |
 
 ## Custom stores
 

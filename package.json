@@ -1,6 +1,7 @@
 {
-  "name": "nestjs-idempotency",
+  "name": "nestjs-idempotency-key",
   "version": "0.1.0",
+  "author": "Mohammad Tavassolian",
   "description": "Stripe-style Idempotency-Key support for NestJS: safe retries for POST/PATCH endpoints, backed by Redis or memory.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
