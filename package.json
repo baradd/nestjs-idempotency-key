@@ -4,13 +4,24 @@
   "description": "Stripe-style Idempotency-Key support for NestJS: safe retries for POST/PATCH endpoints, backed by Redis or memory.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "jest",
     "prepublishOnly": "npm run build && npm test"
   },
-  "keywords": ["nestjs", "idempotency", "idempotency-key", "redis", "interceptor", "retry"],
+  "keywords": [
+    "nestjs",
+    "idempotency",
+    "idempotency-key",
+    "redis",
+    "interceptor",
+    "retry"
+  ],
   "license": "MIT",
   "peerDependencies": {
     "@nestjs/common": "^10.0.0 || ^11.0.0",
@@ -37,6 +48,22 @@
   "jest": {
     "preset": "ts-jest",
     "testEnvironment": "node",
-    "testMatch": ["<rootDir>/test/**/*.spec.ts"]
+    "testMatch": [
+      "<rootDir>/test/**/*.spec.ts"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/baradd/nestjs-idempotency-key.git"
+  },
+  "bugs": {
+    "url": "https://github.com/baradd/nestjs-idempotency-key/issues"
+  },
+  "homepage": "https://github.com/baradd/nestjs-idempotency-key#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
