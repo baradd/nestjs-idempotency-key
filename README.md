@@ -10,7 +10,7 @@ npm install nestjs-idempotency-key
 
 ```ts
 // app.module.ts
-import Redis from 'ioredis';
+import { Redis } from 'ioredis';
 import { IdempotencyModule } from 'nestjs-idempotency-key';
 
 @Module({
